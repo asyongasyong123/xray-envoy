@@ -1,21 +1,28 @@
 {
-  "log": {"loglevel": "warn"},
-  "dns": { ... },
+  "log": {
+    "loglevel": "warn"
+  },
+  "dns": {
+    "servers": ["8.8.8.8", "8.8.4.4"],
+    "strategy": "UseIPv4"
+  },
   "inbounds": [
     {
       "port": 10000,
       "listen": "127.0.0.1",
       "protocol": "trojan",
       "settings": {
-        "clients": [{"password": "xray-envoy"}]
+        "clients": [
+          {
+            "password": "xray-envoy"
+          }
+        ]
       },
       "streamSettings": {
         "network": "ws",
-        "wsSettings": {"path": "/trojan-xray-envoy"}
-      },
-      "sniffing": {
-        "enabled": true,
-        "destOverride": ["http", "tls"]
+        "wsSettings": {
+          "path": "/trojan-xray-envoy"
+        }
       }
     },
     {
@@ -23,24 +30,25 @@
       "listen": "127.0.0.1",
       "protocol": "vless",
       "settings": {
-        "clients": [{"id": "a7b2c9d4-1e3f-4a5b-8c9d-0e1f2a3b4c5d", "level": 0}],
+        "clients": [
+          {
+            "id": "a7b2c9d4-1e3f-4a5b-8c9d-0e1f2a3b4c5d",
+            "level": 0
+          }
+        ],
         "decryption": "none"
       },
       "streamSettings": {
         "network": "ws",
-        "wsSettings": {"path": "/vless-xray-envoy"}
-      },
-      "sniffing": {
-        "enabled": true,
-        "destOverride": ["http", "tls"]
+        "wsSettings": {
+          "path": "/vless-xray-envoy"
+        }
       }
     }
   ],
-  "outbounds": [{"protocol": "freedom"}],
-  "inboundDetour": [],
-  "transport": {
-    "sockopt": {
-      "trustedXForwardedFor": ["127.0.0.1/32"]
+  "outbounds": [
+    {
+      "protocol": "freedom"
     }
-  }
+  ]
 }
