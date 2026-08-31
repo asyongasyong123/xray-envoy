@@ -14,5 +14,5 @@ COPY envoy.yaml /etc/envoy/envoy.yaml
 # I-expose ang port 8080 — gikinahanglan sa Cloud Run
 EXPOSE 8080
 
-# Sugdi ang duha: Xray una, unya Envoy — dugangi ng oras sa pagsugod
-CMD ["/bin/sh", "-c", "xray run -c /etc/xray.json & sleep 5 && exec envoy -c /etc/envoy/envoy.yaml --log-level warn"]
+# Sugdi ang duha: Xray una, unya Envoy
+CMD ["/bin/sh", "-c", "xray run -c /etc/xray.json & sleep 3 && exec envoy -c /etc/envoy/envoy.yaml --log-level warn"]
