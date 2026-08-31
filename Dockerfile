@@ -15,4 +15,4 @@ COPY envoy.yaml /etc/envoy/envoy.yaml
 EXPOSE 8080
 
 # Sugdi ang duha: Xray una, unya Envoy
-CMD ["/bin/sh", "-c", "xray run -c /etc/xray.json & sleep 10 && exec envoy -c /etc/envoy/envoy.yaml --log-level warn"]
+CMD ["/bin/sh", "-c", "xray run -c /etc/xray.json & sleep 3 && exec envoy -c /etc/envoy/envoy.yaml --log-level warn"]
