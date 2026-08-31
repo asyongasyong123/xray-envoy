@@ -1,9 +1,5 @@
 {
   "log": {"loglevel": "warn"},
-  "dns": {
-    "servers": ["8.8.8.8", "8.8.4.4"],
-    "strategy": "UseIPv4"
-  },
   "inbounds": [
     {
       "port": 10000,
