@@ -11,8 +11,12 @@ COPY --from=xray-bin /usr/bin/xray /usr/local/bin/
 COPY config.json /etc/xray.json
 COPY envoy.yaml /etc/envoy/envoy.yaml
 
+# Siguroha nga naa'y executable permissions
+RUN chmod +x /usr/local/bin/xray && \
+    chmod 644 /etc/xray.json /etc/envoy/envoy.yaml
+
 # I-expose ang port 8080 — gikinahanglan sa Cloud Run
 EXPOSE 8080
 
 # Sugdi ang duha: Xray una, unya Envoy
-CMD ["/bin/sh", "-c", "xray run -c /etc/xray.json & sleep 3 && exec envoy -c /etc/envoy/envoy.yaml --log-level warn"]
+CMD ["/bin/sh", "-c", "xray run -c /etc/xray.json & sleep 2 && exec envoy -c /etc/envoy/envoy.yaml --log-level warn"]
