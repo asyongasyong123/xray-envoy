@@ -22,6 +22,9 @@
         "network": "ws",
         "wsSettings": {
           "path": "/trojan-xray-envoy"
+        },
+        "sockopt": {
+          "trustedXForwardedFor": ["127.0.0.1/32"]
         }
       },
       "sniffing": {
@@ -46,6 +49,9 @@
         "network": "ws",
         "wsSettings": {
           "path": "/vless-xray-envoy"
+        },
+        "sockopt": {
+          "trustedXForwardedFor": ["127.0.0.1/32"]
         }
       },
       "sniffing": {
@@ -58,10 +64,5 @@
     {
       "protocol": "freedom"
     }
-  ],
-  "transport": {
-    "sockopt": {
-      "trustedXForwardedFor": ["127.0.0.1/32"]
-    }
-  }
+  ]
 }
