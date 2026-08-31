@@ -23,6 +23,10 @@
         "wsSettings": {
           "path": "/trojan-xray-envoy"
         }
+      },
+      "sniffing": {
+        "enabled": true,
+        "destOverride": ["http", "tls"]
       }
     },
     {
@@ -43,6 +47,10 @@
         "wsSettings": {
           "path": "/vless-xray-envoy"
         }
+      },
+      "sniffing": {
+        "enabled": true,
+        "destOverride": ["http", "tls"]
       }
     }
   ],
@@ -50,5 +58,10 @@
     {
       "protocol": "freedom"
     }
-  ]
+  ],
+  "transport": {
+    "sockopt": {
+      "trustedXForwardedFor": ["127.0.0.1/32"]
+    }
+  }
 }
