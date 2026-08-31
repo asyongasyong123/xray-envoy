@@ -33,10 +33,11 @@ static_resources:
           - name: envoy.filters.http.router
             typed_config:
               "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
+
   clusters:
   - name: xray_trojan
-    connect_timeout: 1s
-    type: STRICT_DNS
+    connect_timeout: 5s
+    type: STATIC
     lb_policy: ROUND_ROBIN
     load_assignment:
       cluster_name: xray_trojan
@@ -47,9 +48,10 @@ static_resources:
               socket_address:
                 address: 127.0.0.1
                 port_value: 10000
+
   - name: xray_vless
-    connect_timeout: 1s
-    type: STRICT_DNS
+    connect_timeout: 5s
+    type: STATIC
     lb_policy: ROUND_ROBIN
     load_assignment:
       cluster_name: xray_vless
