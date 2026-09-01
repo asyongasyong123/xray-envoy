@@ -11,6 +11,8 @@ static_resources:
         typed_config:
           "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
           stat_prefix: ingress_http
+          stream_idle_timeout: 0s
+          request_timeout: 0s
           route_config:
             name: local_route
             virtual_hosts:
@@ -21,12 +23,16 @@ static_resources:
                   prefix: "/trojan-xray-envoy"
                 route:
                   cluster: xray_trojan
+                  timeout: 0s
+                  idle_timeout: 0s
                   upgrade_configs:
                   - upgrade_type: websocket
               - match:
                   prefix: "/vless-xray-envoy"
                 route:
                   cluster: xray_vless
+                  timeout: 0s
+                  idle_timeout: 0s
                   upgrade_configs:
                   - upgrade_type: websocket
           http_filters:
@@ -36,7 +42,7 @@ static_resources:
 
   clusters:
   - name: xray_trojan
-    connect_timeout: 5s
+    connect_timeout: 10s
     type: STATIC
     lb_policy: ROUND_ROBIN
     load_assignment:
@@ -50,7 +56,7 @@ static_resources:
                 port_value: 10000
 
   - name: xray_vless
-    connect_timeout: 5s
+    connect_timeout: 10s
     type: STATIC
     lb_policy: ROUND_ROBIN
     load_assignment:
