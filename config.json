@@ -10,7 +10,12 @@
       },
       "streamSettings": {
         "network": "ws",
-        "wsSettings": {"path": "/trojan-xray-envoy"}
+        "wsSettings": {"path": "/trojan-xray-envoy"},
+        "sockopt": {
+          "tcpKeepAliveIdle": 5,
+          "tcpKeepAliveInterval": 3,
+          "tcpNoDelay": true
+        }
       }
     },
     {
@@ -23,7 +28,12 @@
       },
       "streamSettings": {
         "network": "ws",
-        "wsSettings": {"path": "/vless-xray-envoy"}
+        "wsSettings": {"path": "/vless-xray-envoy"},
+        "sockopt": {
+          "tcpKeepAliveIdle": 5,
+          "tcpKeepAliveInterval": 3,
+          "tcpNoDelay": true
+        }
       }
     }
   ],
