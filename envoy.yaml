@@ -19,6 +19,7 @@ static_resources:
             - name: local_service
               domains: ["*"]
               routes:
+              # 1. Trojan WebSocket Route
               - match:
                   prefix: "/trojan-xray-envoy"
                 route:
@@ -27,6 +28,8 @@ static_resources:
                   idle_timeout: 0s
                   upgrade_configs:
                   - upgrade_type: websocket
+
+              # 2. VLESS WebSocket Route
               - match:
                   prefix: "/vless-xray-envoy"
                 route:
@@ -35,6 +38,15 @@ static_resources:
                   idle_timeout: 0s
                   upgrade_configs:
                   - upgrade_type: websocket
+
+              # 3. 🎭 WEB DECOY ROUTE (Catch-all for "/")
+              - match:
+                  prefix: "/"
+                direct_response:
+                  status: 200
+                  body:
+                    inline_string: "<!DOCTYPE html><html><head><title>Welcome</title></head><body style='font-family:sans-serif;text-align:center;padding:50px;'><h1>Server Active</h1><p>Welcome to our cloud application gateway. Everything is operational.</p></body></html>"
+
           http_filters:
           - name: envoy.filters.http.router
             typed_config:
