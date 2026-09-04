@@ -1,16 +1,33 @@
 {
-  "log": {"loglevel": "warn"},
+  "log": {
+    "loglevel": "warn"
+  },
+  "dns": {
+    "servers": [
+      "8.8.8.8",
+      "8.8.4.4",
+      "1.1.1.1"
+    ],
+    "strategy": "UseIPv4"
+  },
   "inbounds": [
     {
       "port": 10000,
       "listen": "127.0.0.1",
       "protocol": "trojan",
+      "tag": "trojan-ws",
       "settings": {
-        "clients": [{"password": "xray-envoy"}]
+        "clients": [
+          {
+            "password": "xray-envoy"
+          }
+        ]
       },
       "streamSettings": {
         "network": "ws",
-        "wsSettings": {"path": "/trojan-xray-envoy"},
+        "wsSettings": {
+          "path": "/trojan-xray-envoy"
+        },
         "sockopt": {
           "tcpKeepAliveIdle": 5,
           "tcpKeepAliveInterval": 3,
@@ -22,13 +39,21 @@
       "port": 10001,
       "listen": "127.0.0.1",
       "protocol": "vless",
+      "tag": "vless-ws",
       "settings": {
-        "clients": [{"id": "a7b2c9d4-1e3f-4a5b-8c9d-0e1f2a3b4c5d", "level": 0}],
+        "clients": [
+          {
+            "id": "a7b2c9d4-1e3f-4a5b-8c9d-0e1f2a3b4c5d",
+            "level": 0
+          }
+        ],
         "decryption": "none"
       },
       "streamSettings": {
         "network": "ws",
-        "wsSettings": {"path": "/vless-xray-envoy"},
+        "wsSettings": {
+          "path": "/vless-xray-envoy"
+        },
         "sockopt": {
           "tcpKeepAliveIdle": 5,
           "tcpKeepAliveInterval": 3,
@@ -37,5 +62,41 @@
       }
     }
   ],
-  "outbounds": [{"protocol": "freedom"}]
+  "outbounds": [
+    {
+      "protocol": "freedom",
+      "tag": "direct",
+      "settings": {
+        "domainStrategy": "UseIPv4"
+      }
+    },
+    {
+      "protocol": "blackhole",
+      "tag": "blocked",
+      "settings": {
+        "response": {
+          "type": "none"
+        }
+      }
+    }
+  ],
+  "routing": {
+    "domainStrategy": "IPIfNonMatch",
+    "rules": [
+      {
+        "type": "field",
+        "port": "443",
+        "network": "udp",
+        "outboundTag": "blocked"
+      },
+      {
+        "type": "field",
+        "inboundTag": [
+          "trojan-ws",
+          "vless-ws"
+        ],
+        "outboundTag": "direct"
+      }
+    ]
+  }
 }
