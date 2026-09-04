@@ -1,13 +1,11 @@
-# Base image: kuhaon ang xray ug dat files gikan sa teddysun/xray
+# Base image: kuhaon ang xray gikan sa teddysun/xray
 FROM teddysun/xray:latest AS xray-bin
 
 # Main image: Envoy — ang mag-proxy sa 8080
 FROM envoyproxy/envoy:v1.31.10
 
-# Kopyaha ang Xray binary ug DAT files (geoip/geosite)
+# Kopyaha ang Xray binary gikan sa base image
 COPY --from=xray-bin /usr/bin/xray /usr/local/bin/
-COPY --from=xray-bin /usr/bin/geoip.dat /usr/local/bin/
-COPY --from=xray-bin /usr/bin/geosite.dat /usr/local/bin/
 
 # Kopyaha ang atong mga config files
 COPY config.json /etc/xray.json
